@@ -9,7 +9,8 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list>
-              <v-list-item-group v-model="list">
+              <v-list-item-group v-model="list"
+                                 mandatory>
                 <v-list-item v-for="(item, i) in lists"
                              :key="i">
                   {{ item }}
@@ -20,8 +21,10 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
-    <component :is="renderDynamicComponent"
-               class="home-content"></component>
+    <keep-alive>
+      <component :is="renderDynamicComponent()"
+                class="home-content"></component>
+    </keep-alive>
     <v-avatar color="secondaryDark"
               size="56">
       user
@@ -40,11 +43,20 @@ export default {
     }
   },
   computed: {
+  },
+  methods: {
     renderDynamicComponent() {
-      return this.list === 0 ? QueryOrder : AddOrder
-    }
+      if (this.list === 0) {
+        return QueryOrder
+      } else if (this.list === 1) {
+        return AddOrder
+      }
+    },
+    // postOrder(value) {
+    //   console.log(value)
+    //   this.$store.dispatch('Home/createOrders', value)
+    // }
   }
-
 }
 </script>
 <style lang="scss" scoped>
