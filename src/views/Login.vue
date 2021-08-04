@@ -35,7 +35,7 @@
   </v-container>
 </template>
 <script>
-import { email, number } from '@/plugins/rules'
+import { email, number } from '@/utils/Rules'
 export default {
   name: 'Login',
   data() {
@@ -51,7 +51,8 @@ export default {
     async login() {
       if (this.$refs.form.validate()) {
         this.isLoading = true
-        this.$router.push('/home')
+        await this.$store.dispatch('Environment/login', this.account)
+        this.$router.push('/')
         this.isLoading = false
         this.account = ''
         this.password = ''
