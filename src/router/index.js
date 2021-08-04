@@ -14,6 +14,16 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "Login" */ '../views/Login.vue')
+  },
+  {
+    path: '/404',
+    name: 'NotFound',
+    component: () => import(/* webpackChunkName: "Error" */ '../views/Error.vue')
+  },
+  {
+    path: '*',
+    redirect: { name: 'NotFound' },
+    component: () => import(/* webpackChunkName: "Error" */ '../views/Error.vue')
   }
 ]
 

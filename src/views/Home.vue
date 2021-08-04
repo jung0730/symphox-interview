@@ -32,8 +32,8 @@
   </v-container>
 </template>
 <script>
-import QueryOrder from '@/components/QueryOrder'
-import AddOrder from '@/components/AddOrder'
+import QueryOrder from '@/views/components/QueryOrder'
+import AddOrder from '@/views/components/AddOrder'
 export default {
   name: 'Home',
   data() {

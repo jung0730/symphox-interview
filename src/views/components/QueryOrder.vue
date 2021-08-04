@@ -99,22 +99,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-// .list {
-//   &-status {
-//     background: #f5f5f5;
-//     padding: 0.5rem;
-//     display: flex;
-//     &-deco {
-//       width: 0.5rem;
-//       height: 1.5rem;
-//       margin-left: 0.5rem;
-//       margin-right: 1rem;
-//       background-color: #46B035;
-//     }
-//     span {
-//       align-self: center
-//     }
-//   }
-// }
-</style>
