@@ -12,43 +12,46 @@
                   outlined />
       </v-col>
     </v-row>
-    <v-list width="500">
-      <v-list-item-group multiple
-                         v-model="selectedItems">
-        <template v-for="(list, idx) in lists">
-          <v-list-item two-line
-                       :key="idx"
-                       :value="idx">
-              <v-list-item-avatar size="56">
-                <v-img height="5rem"
-                      :src="list.logo" />
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>
-                  <span class="mr-2">
-                  {{ list.status && list.status.type }}
-                  </span>
-                  <span v-if="checkStatusCode(list.status && list.status.code)">
-                  預計出貨: {{ list.date }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                {{ list.name }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action v-if="checkStatusCode(list.status && list.status.code)">
-                <v-checkbox>
-                </v-checkbox>
-              </v-list-item-action>
-          </v-list-item>        
-        </template>
-      </v-list-item-group>
-    </v-list>
+    <v-card class="my-4">
+      <v-list shaped>
+        <v-list-item-group multiple
+                           v-model="selectedItems">
+          <template v-for="(list, idx) in lists">
+            <v-list-item two-line
+                         :key="idx"
+                         :value="idx">
+              <template v-slot:default="{ active }">
+                <v-list-item-avatar size="56">
+                  <v-img height="5rem"
+                        :src="list.logo" />
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <span class="mr-2">
+                    {{ list.status && list.status.type }}
+                    </span>
+                    <span v-if="checkStatusCode(list.status && list.status.code)">
+                    預計出貨: {{ list.date }}
+                    </span>
+                  </v-list-item-title>
+                  <v-list-item-subtitle v-text="list.name">
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action v-if="checkStatusCode(list.status && list.status.code)">
+                  <v-checkbox :input-value="active">
+                  </v-checkbox>
+                </v-list-item-action>
+              </template>
+            </v-list-item>        
+          </template>
+        </v-list-item-group>
+      </v-list>
+    </v-card>
     <v-btn color="primary"
-           large
-           depressed
-           :disabled="selectedItems.length === 0"
-           @click.prevent="changeHandler">
+          large
+          depressed
+          :disabled="selectedItems.length === 0"
+          @click.prevent="changeHandler">
       更改狀態
     </v-btn>
   </div>
@@ -93,8 +96,8 @@ export default {
     checkStatusCode(code) {
       return code <= 2
     },
-    changeHandler() {
-      this.$store.dispatch('Home/postStatus', this.selectedItems)
+    async changeHandler() {
+      await this.$store.dispatch('Home/postStatus', this.selectedItems)
     }
   }
 }

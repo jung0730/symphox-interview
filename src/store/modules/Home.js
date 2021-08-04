@@ -49,8 +49,10 @@ const mutations = {
     })
   },
   POST_STATUS(state, data) {
-    console.log(data)
-    // state.orders = 
+    data.forEach(el => {
+      state.orders[el].status.code = 3
+      state.orders[el].status.type = '已取消'
+    })
   },
   POST_ORDER(state, data) {
     data.forEach(el => {
@@ -63,13 +65,7 @@ const actions = {
     commit('SET_ORDER', data.orders)
   },
   postStatus: async ({ commit }, value) => {
-    try {
-      if (value) {
-        commit('POST_STATUS', value)
-      }
-    } catch(e) {
-      console.log(e)
-    }
+    commit('POST_STATUS', value)
   },
   postOrder: async ({ commit }, value) => {
     commit('POST_ORDER', value)

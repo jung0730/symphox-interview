@@ -23,7 +23,7 @@
     </div>
     <keep-alive>
       <component :is="renderDynamicComponent()"
-                class="home-content"></component>
+                 class="home-content"></component>
     </keep-alive>
     <v-avatar color="secondaryDark"
               size="56">
