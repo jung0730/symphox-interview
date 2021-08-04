@@ -49,9 +49,16 @@ const mutations = {
     })
   },
   POST_STATUS(state, data) {
-    data.forEach(el => {
-      state.orders[el].status.code = 3
-      state.orders[el].status.type = '已取消'
+    state.orders = state.orders.map(el => {
+      return {
+        date: el.date,
+        logo: el.logo,
+        name: el.name,
+        status: {
+          code: el.name === data ? 3 : el.status.code,
+          type: el.name === data ? '已取消' : el.status.type
+        }        
+      }
     })
   },
   POST_ORDER(state, data) {

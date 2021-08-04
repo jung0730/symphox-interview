@@ -18,8 +18,9 @@
                            v-model="selectedItems">
           <template v-for="(list, idx) in lists">
             <v-list-item two-line
-                         :key="idx"
-                         :value="idx">
+                         :ripple="false"
+                         :key="`${idx} - ${list.name}`"
+                         :value="list && list.name">
               <template v-slot:default="{ active }">
                 <v-list-item-avatar size="56">
                   <v-img height="5rem"
@@ -97,7 +98,10 @@ export default {
       return code <= 2
     },
     async changeHandler() {
-      await this.$store.dispatch('Home/postStatus', this.selectedItems)
+      await this.selectedItems.forEach(el => {
+        this.$store.dispatch('Home/postStatus', el)
+      })
+      this.selectedItems = []
     }
   }
 }
