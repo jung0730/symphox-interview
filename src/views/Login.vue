@@ -1,6 +1,5 @@
 <template>
-  <v-container fluid
-               class="login-container">
+  <v-container class="login-container">
     <v-card min-width="400"
             outlined
             class="py-16">
@@ -64,7 +63,6 @@ export default {
 <style lang="scss" scoped>
 .login-container {
   height: 100%;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

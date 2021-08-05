@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="4">
+    <v-row justify="center">
+      <v-col md="4">
         <v-select :items="statusDropdown"
                   item-text="text"
                   item-value="value"
@@ -13,49 +13,54 @@
                   outlined />
       </v-col>
     </v-row>
-    <v-card class="my-4">
-      <v-list shaped>
-        <v-list-item-group multiple
-                           v-model="selectedItems">
-          <template v-for="(list, idx) in lists">
-            <v-list-item two-line
-                         :ripple="false"
-                         :key="`${idx}-${list.name}`"
-                         :value="list && list.name">
-              <template v-slot:default="{ active }">
-                <v-list-item-avatar size="56">
-                  <v-img height="5rem"
-                         :src="list.logo" />
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    <span class="mr-2">
-                    {{ list.status && list.status.type }}
-                    </span>
-                    <span v-if="checkStatusCode(list.status && list.status.code) && list.date">
-                    預計出貨: {{ list.date }}
-                    </span>
-                  </v-list-item-title>
-                  <v-list-item-subtitle v-text="list.name">
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-                <v-list-item-action v-if="checkStatusCode(list.status && list.status.code)">
-                  <v-checkbox :input-value="active">
-                  </v-checkbox>
-                </v-list-item-action>
-              </template>
-            </v-list-item>        
-          </template>
-        </v-list-item-group>
-      </v-list>
-    </v-card>
-    <v-btn color="primary"
-           large
-           depressed
-           :disabled="selectedItems.length === 0"
-           @click.prevent="changeHandler">
-      更改狀態
-    </v-btn>
+    <v-row justify="center">
+      <v-card width="450"
+              class="my-4">
+        <v-list shaped>
+          <v-list-item-group multiple
+                             v-model="selectedItems">
+            <template v-for="(list, idx) in lists">
+              <v-list-item two-line
+                           :ripple="false"
+                           :key="`${idx}-${list.name}`"
+                           :value="list && list.name">
+                <template v-slot:default="{ active }">
+                  <v-list-item-avatar size="56">
+                    <v-img height="5rem"
+                           :src="list.logo" />
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      <span class="mr-2">
+                      {{ list.status && list.status.type }}
+                      </span>
+                      <span v-if="checkStatusCode(list.status && list.status.code) && list.date">
+                      預計出貨: {{ list.date }}
+                      </span>
+                    </v-list-item-title>
+                    <v-list-item-subtitle v-text="list.name">
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-list-item-action v-if="checkStatusCode(list.status && list.status.code)">
+                    <v-checkbox :input-value="active">
+                    </v-checkbox>
+                  </v-list-item-action>
+                </template>
+              </v-list-item>        
+            </template>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+    </v-row>
+    <v-row justify="center">
+      <v-btn color="primary"
+             large
+             depressed
+             :disabled="selectedItems.length === 0"
+             @click.prevent="changeHandler">
+        更改狀態
+      </v-btn>       
+    </v-row>
   </div>
 </template>
 

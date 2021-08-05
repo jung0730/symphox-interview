@@ -1,33 +1,24 @@
 <template>
   <div>
     <v-form ref="form">
-      <v-row>
-        <v-col cols="4">
+      <v-row justify="center">
+        <v-col md="4">
           <v-text-field v-model.trim="name"
                         label="商品名稱"
                         :rules="rules"
                         outlined />
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="4">
+      <v-row justify="center">
+        <v-col md="4">
           <v-text-field v-model.trim="link"
                         label="圖示連結"
                         :rules="rules"
                         outlined />
         </v-col>
-        <v-col>
-          <v-btn color="primary"
-                 dark
-                 small
-                 fab
-                 @click="createAnOrder">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="4">
+      <v-row justify="center">
+        <v-col md="4">
           <v-select :items="statusDropdown"
                     item-text="text"
                     item-value="value"
@@ -38,30 +29,45 @@
                     outlined />
         </v-col>
       </v-row>
+      <v-btn color="primary"
+             dark
+             small
+             fab
+             absolute
+             class="floating-button"
+             @click="createAnOrder">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
     </v-form>
-    <template v-if="lists.length > 0">
-      <v-card v-for="(item, index) in lists"
-              :key="index"
-              class="mt-4"
-              width="500">
-        <v-card-title>
-          {{ item.name }}
-        </v-card-title>
-        <v-card-subtitle>
-          {{ item.logo }}
-        </v-card-subtitle>
-        <v-card-text>
-          {{ statusMatch[item.status.code] }}
-        </v-card-text>
-      </v-card>
-    </template>
-    <template v-else-if="lists.length === 0 && isShowNotification">
+    <v-row v-if="lists.length > 0"
+           justify="center">
+      <v-col cols="12"
+             sm="7"
+             md="4">
+        <v-card v-for="(item, index) in lists"
+                :key="index"
+                class="mt-4">
+          <v-card-title>
+            {{ item.name }}
+          </v-card-title>
+          <v-card-subtitle>
+            {{ item.logo }}
+          </v-card-subtitle>
+          <v-card-text>
+            {{ statusMatch[item.status.code] }}
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row v-else-if="lists.length === 0 && isShowNotification"
+           justify="center">
       可於訂單查詢查到新增的訂單
-    </template>
+    </v-row>
     <v-btn color="primary"
            large
            depressed
            class="add-button"
+           :disabled="lists.length === 0"
            @click.prevent="createOrders">
       新增
     </v-btn>
@@ -116,8 +122,8 @@ export default {
             type: this.statusMatch[this.status]
           }
         }]
-        this.reset()
-      }      
+        this.reset() 
+      }
     },
     reset() {
       this.$refs.form.reset()
@@ -140,8 +146,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .add-button {
-  position: absolute;
+  position: fixed;
   right: 10%;
   bottom: 10%;
+}
+.floating-button {
+  top: 20%;
+  left: 80%;
 }
 </style>

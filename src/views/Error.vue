@@ -1,6 +1,5 @@
 <template>
-  <v-container fluid
-               class="error-container">
+  <v-container>
     <v-row justify="center">
       <div class="error-msg">
         Page Not Found
@@ -30,9 +29,6 @@ export default {
 
 <style lang="scss" scoped>
 .error {
-  &-container {
-    height: 100%;
-  }
   &-msg {
     margin: 2rem 0 0.5rem 0;
   }

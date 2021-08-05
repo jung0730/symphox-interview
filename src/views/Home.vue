@@ -1,8 +1,7 @@
 <template>
-  <v-container fluid
-               class="home-container">
-    <div>
-      <v-expansion-panels>
+  <v-container>
+    <div class="home-nav">
+      <v-expansion-panels class="home-panel">
         <v-expansion-panel>
           <v-expansion-panel-header>
             訂單管理
@@ -20,15 +19,15 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
+      <v-avatar color="secondaryDark"
+                size="56">
+        user
+      </v-avatar>
     </div>
     <keep-alive include="QueryOrder">
       <component :is="renderDynamicComponent()"
-                 class="home-content"></component>
+                 class="home-content"></component>         
     </keep-alive>
-    <v-avatar color="secondaryDark"
-              size="56">
-      user
-    </v-avatar>
   </v-container>
 </template>
 <script>
@@ -58,14 +57,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home {
-  &-container {
-    height: 100%;
-    width: 100%;
+  &-nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    margin-bottom: 2rem;
   }
-  &-content {
-    flex-basis: 60%;
+  &-panel {
+    min-width: 10rem;
+    width: 15%;
+    margin-right: auto;
   }
 }
 </style>
