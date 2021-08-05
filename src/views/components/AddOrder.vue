@@ -1,67 +1,74 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="4">
-        <v-text-field v-model.trim="name"
-                      label="商品名稱"
-                      hide-details
-                      outlined />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="4">
-        <v-text-field v-model.trim="link"
-                      label="圖示連結"
-                      hide-details
-                      outlined />
-      </v-col>
-      <v-col>
-        <v-btn color="primary"
-               dark
-               small
-               fab
-               @click="createOrder">
-          <v-icon>mdi-plus</v-icon>
-      </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="4">
-        <v-select :items="statusDropdown"
-                  item-text="text"
-                  item-value="value"
-                  v-model="status"
-                  label="訂單狀態"
-                  color="primary"
-                  hide-details
-                  outlined />
-      </v-col>
-    </v-row>
-    <v-card v-for="(item, index) in lists"
-            :key="index"
-            class="mt-4"
-            width="500">
-      <v-card-title>
-        {{ item.name }}
-      </v-card-title>
-      <v-card-subtitle>
-        {{ item.logo }}
-      </v-card-subtitle>
-      <v-card-text>
-        {{ statusMatch[item.status.code] }}
-      </v-card-text>
-    </v-card>
+    <v-form ref="form">
+      <v-row>
+        <v-col cols="4">
+          <v-text-field v-model.trim="name"
+                        label="商品名稱"
+                        :rules="rules"
+                        outlined />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="4">
+          <v-text-field v-model.trim="link"
+                        label="圖示連結"
+                        :rules="rules"
+                        outlined />
+        </v-col>
+        <v-col>
+          <v-btn color="primary"
+                 dark
+                 small
+                 fab
+                 @click="createAnOrder">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="4">
+          <v-select :items="statusDropdown"
+                    item-text="text"
+                    item-value="value"
+                    v-model="status"
+                    label="訂單狀態"
+                    color="primary"
+                    :rules="rules"
+                    outlined />
+        </v-col>
+      </v-row>
+    </v-form>
+    <template v-if="lists.length > 0">
+      <v-card v-for="(item, index) in lists"
+              :key="index"
+              class="mt-4"
+              width="500">
+        <v-card-title>
+          {{ item.name }}
+        </v-card-title>
+        <v-card-subtitle>
+          {{ item.logo }}
+        </v-card-subtitle>
+        <v-card-text>
+          {{ statusMatch[item.status.code] }}
+        </v-card-text>
+      </v-card>
+    </template>
+    <template v-else-if="lists.length === 0 && isShowNotification">
+      可於訂單查詢查到新增的訂單
+    </template>
     <v-btn color="primary"
            large
            depressed
            class="add-button"
-           :disabled="!this.name || !this.link || !this.status"
-           @click.prevent="addHandler">
+           @click.prevent="createOrders">
       新增
     </v-btn>
   </div>
 </template>
 <script>
+import { required } from '@/utils/Rules'
 export default {
   name: 'AddOrder',
   data() {
@@ -70,6 +77,8 @@ export default {
       link: '',
       status: '',
       lists: [],
+      isShowNotification: false,
+      rules: [ required ],
       statusDropdown: [
         {
           text: '處理中',
@@ -97,8 +106,8 @@ export default {
     }
   },
   methods: {
-    createOrder() {
-      if (this.name && this.link && this.status) {
+    create() {
+      if (this.$refs.form.validate()) {
         this.lists = [...this.lists, {
           name: this.name,
           logo: this.link,
@@ -107,15 +116,24 @@ export default {
             type: this.statusMatch[this.status]
           }
         }]
-        this.name = ''
-        this.link = ''
-        this.status = ''
-      }
+        this.reset()
+      }      
     },
-    async addHandler() {
-      this.createOrder()
+    reset() {
+      this.$refs.form.reset()
+      this.name = ''
+      this.link = ''
+      this.status = ''
+    },
+    createAnOrder() {
+      this.create()
+    },
+    async createOrders() {
+      this.create()
       await this.$store.dispatch('Home/postOrder', this.lists)
+      this.reset()
       this.lists = []
+      this.isShowNotification = true
     }
   }
 }

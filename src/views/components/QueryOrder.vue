@@ -9,6 +9,7 @@
                   label="訂單狀態"
                   color="primary"
                   hide-details
+                  clearable
                   outlined />
       </v-col>
     </v-row>
@@ -19,19 +20,19 @@
           <template v-for="(list, idx) in lists">
             <v-list-item two-line
                          :ripple="false"
-                         :key="`${idx} - ${list.name}`"
+                         :key="`${idx}-${list.name}`"
                          :value="list && list.name">
               <template v-slot:default="{ active }">
                 <v-list-item-avatar size="56">
                   <v-img height="5rem"
-                        :src="list.logo" />
+                         :src="list.logo" />
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title>
                     <span class="mr-2">
                     {{ list.status && list.status.type }}
                     </span>
-                    <span v-if="checkStatusCode(list.status && list.status.code)">
+                    <span v-if="checkStatusCode(list.status && list.status.code) && list.date">
                     預計出貨: {{ list.date }}
                     </span>
                   </v-list-item-title>
@@ -49,10 +50,10 @@
       </v-list>
     </v-card>
     <v-btn color="primary"
-          large
-          depressed
-          :disabled="selectedItems.length === 0"
-          @click.prevent="changeHandler">
+           large
+           depressed
+           :disabled="selectedItems.length === 0"
+           @click.prevent="changeHandler">
       更改狀態
     </v-btn>
   </div>

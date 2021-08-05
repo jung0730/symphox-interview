@@ -21,7 +21,7 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
-    <keep-alive>
+    <keep-alive include="QueryOrder">
       <component :is="renderDynamicComponent()"
                  class="home-content"></component>
     </keep-alive>
@@ -46,16 +46,13 @@ export default {
   },
   methods: {
     renderDynamicComponent() {
-      if (this.list === 0) {
-        return QueryOrder
-      } else if (this.list === 1) {
-        return AddOrder
+      switch (this.list) {
+        case 0:
+          return QueryOrder
+        case 1:
+          return AddOrder
       }
-    },
-    // postOrder(value) {
-    //   console.log(value)
-    //   this.$store.dispatch('Home/createOrders', value)
-    // }
+    }
   }
 }
 </script>
